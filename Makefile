@@ -53,6 +53,9 @@ generate-data:
 ingest-data:
 	$(VENV_BIN)/python scripts/ingest_data.py
 
+build-features:
+	$(VENV_BIN)/python scripts/build_features.py
+
 generate-data-small:
 	$(VENV_BIN)/python scripts/generate_data.py --config $(DATA_CFG) \
 		--customers 1000 --transactions 50000
