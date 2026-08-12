@@ -1,0 +1,137 @@
+# ==============================================================================
+# data_config.yaml
+# Synthetic Banking Data Generation Configuration
+# Modify these values to scale the dataset up or down based on available RAM.
+# ==============================================================================
+
+# ── Global ────────────────────────────────────────────────────────────────────
+random_seed: 42
+output_dir: "data/synthetic"
+output_format: "parquet"   # options: csv | parquet | both
+
+# ── Entity counts ─────────────────────────────────────────────────────────────
+# Default: tuned for 8 GB RAM machine.
+# Scale up by increasing these values and closing other applications.
+counts:
+  customers: 10000
+  accounts_per_customer_min: 1
+  accounts_per_customer_max: 3
+  merchants: 2000
+  devices: 5000
+  ip_addresses: 3000
+  transactions: 500000
+  loans_fraction: 0.60       # fraction of customers who have loans
+
+# ── Fraud configuration ───────────────────────────────────────────────────────
+fraud:
+  overall_fraud_rate: 0.025      # ~2.5% fraud rate (realistic for banking)
+  fraud_scenarios:
+    new_device_fraud: true
+    velocity_attack: true
+    impossible_travel: true
+    unusual_hours: true
+    merchant_collusion: true
+    account_takeover: true
+    device_sharing: true
+    ip_sharing: true
+    coordinated_network: true
+    abnormal_spending: true
+    repeated_failures: true
+    card_not_present: true
+    geo_anomaly: true
+
+# ── Customer demographics ─────────────────────────────────────────────────────
+customers:
+  age_min: 18
+  age_max: 80
+  income_min: 15000
+  income_max: 500000
+  credit_score_min: 300
+  credit_score_max: 850
+  employment_statuses:
+    - "employed"
+    - "self-employed"
+    - "unemployed"
+    - "retired"
+    - "student"
+  risk_profiles:
+    - "low"
+    - "medium"
+    - "high"
+
+# ── Transaction configuration ─────────────────────────────────────────────────
+transactions:
+  amount_min: 0.50
+  amount_max: 50000.00
+  merchant_categories:
+    - "groceries"
+    - "dining"
+    - "entertainment"
+    - "travel"
+    - "utilities"
+    - "healthcare"
+    - "retail"
+    - "electronics"
+    - "fuel"
+    - "online_marketplace"
+    - "gambling"
+    - "cryptocurrency"
+    - "money_transfer"
+    - "atm_withdrawal"
+  payment_methods:
+    - "debit_card"
+    - "credit_card"
+    - "bank_transfer"
+    - "mobile_payment"
+    - "online"
+  transaction_types:
+    - "purchase"
+    - "withdrawal"
+    - "transfer"
+    - "payment"
+    - "refund"
+  # Time distribution — peak hours weighted
+  hour_weights:
+    peak: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    off_peak: [0, 1, 2, 3, 4, 5, 6, 7, 8, 21, 22, 23]
+
+# ── Loan configuration ────────────────────────────────────────────────────────
+loans:
+  amount_min: 1000
+  amount_max: 500000
+  interest_rate_min: 3.5
+  interest_rate_max: 28.0
+  tenure_months: [12, 24, 36, 48, 60, 84, 120]
+  default_rate: 0.08          # 8% default rate on loans
+
+# ── Device configuration ──────────────────────────────────────────────────────
+devices:
+  types:
+    - "mobile"
+    - "desktop"
+    - "tablet"
+  operating_systems:
+    - "iOS"
+    - "Android"
+    - "Windows"
+    - "macOS"
+    - "Linux"
+  # Shared device attack: some devices used by multiple customers
+  shared_device_fraction: 0.05   # 5% of devices shared across customers
+
+# ── Geographic configuration ──────────────────────────────────────────────────
+geography:
+  cities:
+    - {city: "Mumbai", state: "Maharashtra", lat: 19.0760, lon: 72.8777}
+    - {city: "Delhi", state: "Delhi", lat: 28.7041, lon: 77.1025}
+    - {city: "Bangalore", state: "Karnataka", lat: 12.9716, lon: 77.5946}
+    - {city: "Chennai", state: "Tamil Nadu", lat: 13.0827, lon: 80.2707}
+    - {city: "Kolkata", state: "West Bengal", lat: 22.5726, lon: 88.3639}
+    - {city: "Hyderabad", state: "Telangana", lat: 17.3850, lon: 78.4867}
+    - {city: "Pune", state: "Maharashtra", lat: 18.5204, lon: 73.8567}
+    - {city: "Ahmedabad", state: "Gujarat", lat: 23.0225, lon: 72.5714}
+    - {city: "Jaipur", state: "Rajasthan", lat: 26.9124, lon: 75.7873}
+    - {city: "Lucknow", state: "Uttar Pradesh", lat: 26.8467, lon: 80.9462}
+    - {city: "London", state: "England", lat: 51.5074, lon: -0.1278}
+    - {city: "Dubai", state: "UAE", lat: 25.2048, lon: 55.2708}
+    - {city: "Singapore", state: "Singapore", lat: 1.3521, lon: 103.8198}

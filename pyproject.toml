@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "banking-decision-intelligence"
+version = "0.1.0"
+description = "Real-Time Banking Decision Intelligence & Risk Analytics Platform"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Divyansh Srivastava", email = "divyanshsrivastava3030@gmail.com" }
+]
+keywords = [
+    "banking", "fraud-detection", "credit-risk", "machine-learning",
+    "pyspark", "kafka", "mlops", "explainable-ai"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/itsds17/banking-System-"
+Repository = "https://github.com/itsds17/banking-System-"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "api*"]
+
+# ── pytest ────────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --cov=src --cov-report=term-missing --cov-report=html"
+log_cli = true
+log_cli_level = "INFO"
+
+# ── coverage ──────────────────────────────────────────────────────────────────
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+]
+
+# ── ruff (linting) ────────────────────────────────────────────────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+select = ["E", "W", "F", "I", "B", "C4"]
+ignore = ["E501"]

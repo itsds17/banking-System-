@@ -1,0 +1,74 @@
+# ==============================================================================
+# logging_config.yaml — Structured logging configuration
+# ==============================================================================
+
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: "%(asctime)s | %(levelname)-8s | %(name)s:%(lineno)d | %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+  json:
+    class: "logging.Formatter"
+    format: '{"time": "%(asctime)s", "level": "%(levelname)s", "logger": "%(name)s", "line": %(lineno)d, "message": "%(message)s"}'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: standard
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: standard
+    filename: logs/banking_platform.log
+    maxBytes: 10485760   # 10 MB
+    backupCount: 5
+    encoding: utf8
+
+  error_file:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: json
+    filename: logs/banking_errors.log
+    maxBytes: 10485760
+    backupCount: 3
+    encoding: utf8
+
+loggers:
+  src.data_generation:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: false
+
+  src.fraud_detection:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: false
+
+  src.credit_risk:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: false
+
+  src.decision_engine:
+    level: INFO
+    handlers: [console, file]
+    propagate: false
+
+  src.model_serving:
+    level: INFO
+    handlers: [console, file]
+    propagate: false
+
+  kafka:
+    level: WARNING
+    handlers: [console]
+    propagate: false
+
+root:
+  level: INFO
+  handlers: [console, file, error_file]

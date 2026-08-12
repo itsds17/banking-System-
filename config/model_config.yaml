@@ -1,0 +1,65 @@
+# ==============================================================================
+# model_config.yaml — Model hyperparameters and evaluation settings
+# Populated in Phase 4 (fraud) and Phase 5 (credit risk).
+# Listed here so all configs live in one place.
+# ==============================================================================
+
+# ── Fraud Detection ───────────────────────────────────────────────────────────
+fraud_detection:
+  model_name: "xgboost_fraud_v1"
+  test_size: 0.20
+  random_state: 42
+  class_weight: "balanced"
+  decision_threshold: 0.40       # tuned for precision/recall balance
+  xgboost:
+    n_estimators: 300
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    scale_pos_weight: 39         # ~1/fraud_rate; overridden by class_weight
+    eval_metric: "aucpr"
+    early_stopping_rounds: 30
+    tree_method: "hist"
+
+# ── Credit Risk ───────────────────────────────────────────────────────────────
+credit_risk:
+  model_name: "xgboost_credit_v1"
+  test_size: 0.20
+  random_state: 42
+  lgd: 0.45                      # Loss Given Default (industry assumption)
+  xgboost:
+    n_estimators: 200
+    max_depth: 5
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    eval_metric: "logloss"
+
+# ── Customer Segmentation ─────────────────────────────────────────────────────
+segmentation:
+  algorithm: "kmeans"
+  n_clusters_search: [3, 4, 5, 6, 7, 8]
+  random_state: 42
+  max_iter: 300
+  n_init: 10
+
+# ── Forecasting ───────────────────────────────────────────────────────────────
+forecasting:
+  target: "daily_transaction_volume"
+  horizon_days: 30
+  method: "statsmodels_sarima"
+
+# ── Decision Engine ───────────────────────────────────────────────────────────
+decision_engine:
+  thresholds:
+    fraud_block: 0.80
+    fraud_review: 0.40
+    credit_block: 0.70
+    credit_review: 0.40
+  weights:
+    fraud_score: 0.45
+    credit_risk: 0.25
+    device_risk: 0.15
+    ip_risk: 0.10
+    graph_risk: 0.05
