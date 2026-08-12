@@ -50,6 +50,9 @@ install:
 generate-data:
 	$(VENV_BIN)/python scripts/generate_data.py --config $(DATA_CFG)
 
+ingest-data:
+	$(VENV_BIN)/python scripts/ingest_data.py
+
 generate-data-small:
 	$(VENV_BIN)/python scripts/generate_data.py --config $(DATA_CFG) \
 		--customers 1000 --transactions 50000
